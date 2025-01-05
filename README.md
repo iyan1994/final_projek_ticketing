@@ -20,3 +20,4 @@ sistem ticketing untuk final projek bootcamp
 2. Membuat database pada mysql 
 3. Ubah koneksi database pada file main.go 
 4. jalankan go run main.go "table otomatis di buat dengan menjalan kan migrate pada folder models/migrate_table"
+5. analisa system ada di file "analisa ticketing system.pptx"
