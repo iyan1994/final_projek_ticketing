@@ -7,6 +7,7 @@ import (
 	"final_projek_ticketing/repository"
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
@@ -125,5 +126,130 @@ func LoginUserHandler(c *gin.Context) {
 	userDto.FillFromModel(user)
 
 	c.JSON(http.StatusOK, model.NewSuccessResponse("success login", userDto))
+
+}
+
+// get client
+func GetClientHandler(c *gin.Context) {
+	var user []model.User
+
+	err := repository.Db.Where("id_role = 2").Find(&user).Error
+
+	if err != nil {
+		c.JSON(
+			http.StatusInternalServerError,
+			model.NewFailedResponse(fmt.Sprintf("Failed to get user client: %s", err.Error())),
+		)
+		return
+	}
+
+	var usersDto []model.UserDto
+	for _, data := range user {
+		var userDto model.UserDto
+		userDto.FillFromModel(data)
+		usersDto = append(usersDto, userDto)
+	}
+
+	c.JSON(http.StatusOK, model.NewSuccessResponse("success", usersDto))
+}
+
+// get Engineer
+func GetEngineerHandler(c *gin.Context) {
+	var user []model.User
+
+	err := repository.Db.Where("id_role = 3").Find(&user).Error
+
+	if err != nil {
+		c.JSON(
+			http.StatusInternalServerError,
+			model.NewFailedResponse(fmt.Sprintf("Failed to get user engineer: %s", err.Error())),
+		)
+		return
+	}
+
+	var usersDto []model.UserDto
+	for _, data := range user {
+		var userDto model.UserDto
+		userDto.FillFromModel(data)
+		usersDto = append(usersDto, userDto)
+	}
+
+	c.JSON(http.StatusOK, model.NewSuccessResponse("success", usersDto))
+}
+
+func DeleteUserHandler(c *gin.Context) {
+	var existUser model.User
+	id, err := strconv.Atoi(c.Param("id"))
+
+	if err != nil {
+		c.JSON(
+			http.StatusBadRequest,
+			model.NewFailedResponse(fmt.Sprintf("invalid id : %s", err.Error())),
+		)
+		return
+	}
+
+	// cek ticket apa id user sudah buat
+	var ticket []model.Ticket
+	err = repository.Db.Where("id_user = ?", id).Find(&ticket).Error
+	if err != nil {
+		c.JSON(
+			http.StatusNotFound,
+			model.NewFailedResponse(fmt.Sprintf("not exist id : %s", err.Error())),
+		)
+		return
+	}
+
+	if len(ticket) > 0 {
+		c.JSON(
+			http.StatusBadRequest,
+			model.NewFailedResponse(fmt.Sprintf("id is in another table")),
+		)
+		return
+	}
+
+	// cek assign ticket  sudah buat oleh id user yg di hapus
+	var assignTicket []model.AssignTicket
+	err = repository.Db.Where("id_teknisi = ?", id).Find(&assignTicket).Error
+	if err != nil {
+		c.JSON(
+			http.StatusNotFound,
+			model.NewFailedResponse(fmt.Sprintf("not exist id : %s", err.Error())),
+		)
+		return
+	}
+
+	if len(assignTicket) > 0 {
+		c.JSON(
+			http.StatusBadRequest,
+			model.NewFailedResponse(fmt.Sprintf("id is in another table")),
+		)
+		return
+	}
+
+	//jika id tidak ada, valid untuk delete user
+	err = repository.Db.First(&existUser, id).Error
+	if err != nil {
+		c.JSON(
+			http.StatusNotFound,
+			model.NewFailedResponse(fmt.Sprintf("not exist id : %s", err.Error())),
+		)
+		return
+	}
+	user := model.User{IdUser: id}
+	result := repository.Db.Delete(user)
+
+	if result.Error != nil {
+		c.JSON(
+			http.StatusInternalServerError,
+			model.NewFailedResponse(fmt.Sprintf("failed to delete user : %s", err.Error())),
+		)
+		return
+	}
+
+	c.JSON(
+		http.StatusOK,
+		model.NewSuccessResponse(fmt.Sprintf("%d user delete", result.RowsAffected), nil),
+	)
 
 }

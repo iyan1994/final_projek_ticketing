@@ -12,7 +12,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func AdminAuthMiddleware(db *gorm.DB) gin.HandlerFunc {
+func EngineerAuthMiddleware(db *gorm.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		authHeader := c.GetHeader("Authorization")
 		if authHeader == "" {
@@ -47,8 +47,8 @@ func AdminAuthMiddleware(db *gorm.DB) gin.HandlerFunc {
 		idRole := int(claims["id_role"].(float64))
 		title := claims["title"].(string)
 
-		//otorisasi admin
-		if idRole != 1 {
+		//otorisasi engineer
+		if idRole != 3 {
 			c.JSON(http.StatusForbidden, gin.H{"error": "You do not have permission"})
 			c.Abort()
 			return
