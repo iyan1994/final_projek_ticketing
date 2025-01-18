@@ -1,0 +1,722 @@
+{
+	"info": {
+		"_postman_id": "8c1b40a8-4172-463e-bcd0-b25fc2ddc291",
+		"name": "final_projek",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13993483",
+		"_collection_link": "https://blue-crater-358155.postman.co/workspace/Cikaracak~838384c7-dc69-4dbd-9c05-6b1d35062d02/collection/13993483-8c1b40a8-4172-463e-bcd0-b25fc2ddc291?action=share&source=collection_link&creator=13993483"
+	},
+	"item": [
+		{
+			"name": "admin",
+			"item": [
+				{
+					"name": "create user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n      \"username\" : \"ujul\",\n\t  \"email\" : \"ujul@gmail.com\",\n\t  \"name\" : \"ujul\",\n\t  \"password\" : \"Cicicuit@12345\",\n\t  \"id_role\" : 3, // 1 = admmin, 2 = client, 3 engineering\n      \"title\" : \"engineer\",\n\t  \"no_telepon\" : 872723774,\n\t  \"address\" : \"jln. gatot subroto\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/user",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create assign ticket",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id_ticket\" : {{id_ticket}},\n\t\"id_priority\" : 1, // 1 = critical, 2 = major, 3 = minor \n\t\"id_teknisi\" : {{id_teknisi}}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/assignticket",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"assignticket"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "view all ticket",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/ticket/allticket?page=1&page_size=30&status=Open&start_date=2025-01-01&end_date=2025-01-20",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"ticket",
+								"allticket"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "page_size",
+									"value": "30"
+								},
+								{
+									"key": "status",
+									"value": "Open"
+								},
+								{
+									"key": "start_date",
+									"value": "2025-01-01"
+								},
+								{
+									"key": "end_date",
+									"value": "2025-01-20"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get user client",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/user/getclient",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user",
+								"getclient"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get user engineer",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/user/getengineer",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user",
+								"getengineer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "view feedback",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/ticket/viewfeedback/{{id_ticket}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"ticket",
+								"viewfeedback",
+								"{{id_ticket}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "view solution",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/ticket/viewsolution/{{id_ticket}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"ticket",
+								"viewsolution",
+								"{{id_ticket}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "view ticket image",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/ticket/viewticketimage/{{id_ticket}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"ticket",
+								"viewticketimage",
+								"{{id_ticket}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/user/delete/31",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user",
+								"delete",
+								"31"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "client",
+			"item": [
+				{
+					"name": "create ticket",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_client}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id_category\" : 1, // 1 = request, 2 = probelem, 3 = corective\n\t\"subjek\"    :\"permintaan pembuatan laporan bandwidth 29\",\n\t\"deksripsi\" :\"laporan grafik 29\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/ticket",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"ticket"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "upload ticket image",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_client}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/Users/rusdiyantoiyan/Downloads/pexels-abh-vlog-2148462563-30110600.jpg"
+								},
+								{
+									"key": "name_image",
+									"value": "upload_pertama1.jpg",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "kesalahan pada router mengakibatkan tidak dapat internet blablabla",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/ticket/uploadimageticket/{{id_ticket}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"ticket",
+								"uploadimageticket",
+								"{{id_ticket}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create feedback",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_client}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"satisfaction\" : \"Puas\",\n    \"deksripsi\": \"perkerjaan bagugs\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/ticket/feedback/{{id_ticket}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"ticket",
+								"feedback",
+								"{{id_ticket}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "view my ticket",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_client}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/ticket/myticket?page=1&page_size=20&status=Closed&start_date=2025-01-01&end_date=2025-01-20",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"ticket",
+								"myticket"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "page_size",
+									"value": "20"
+								},
+								{
+									"key": "status",
+									"value": "Closed"
+								},
+								{
+									"key": "start_date",
+									"value": "2025-01-01"
+								},
+								{
+									"key": "end_date",
+									"value": "2025-01-20"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "engineering",
+			"item": [
+				{
+					"name": "view assign ticket engineering by id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_engineer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/assignticket/myassignticketbyid/{{id_assign_ticket}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"assignticket",
+								"myassignticketbyid",
+								"{{id_assign_ticket}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "view assign ticket engineering",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_engineer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/assignticket/myassignticket?page=1&page_size=10",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"assignticket",
+								"myassignticket"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "page_size",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "start ticket",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_engineer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/assignticket/start/{{id_assign_ticket}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"assignticket",
+								"start",
+								"{{id_assign_ticket}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "upload solution",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_engineer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/Users/rusdiyantoiyan/Downloads/pexels-abh-vlog-2148462563-30110600.jpg"
+								},
+								{
+									"key": "name_image",
+									"value": "update_solution4.jpg",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "test update solution 4",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/assignticket/solution/{{id_assign_ticket}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"assignticket",
+								"solution",
+								"{{id_assign_ticket}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "closed ticket",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_engineer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/assignticket/closed/{{id_assign_ticket}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"assignticket",
+								"closed",
+								"{{id_assign_ticket}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\" : \"pt samsung\",\n    \"password\" : \"Cicicuit@12345\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/login",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "view ticket by id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token_admin}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/ticket/viewticketbyid/{{id_ticket}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"ticket",
+						"viewticketbyid",
+						"{{id_ticket}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
