@@ -7,19 +7,32 @@ import (
 	"final_projek_ticketing/service"
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
 func main() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
 
-	// Data source name (DSN) untuk MySQL
-	dsn := "root:Lpkia@12345@tcp(host.docker.internal:3307)/db_ticketing?charset=utf8mb4&parseTime=true&loc=Local"
-	//dsn := "root:Lpkia@12345@tcp(127.0.0.1:3307)/db_ticketing?charset=utf8mb4&parseTime=true&loc=Local"
+	// Get environment variables
+	dbUser := os.Getenv("DB_USER")
+	dbPassword := os.Getenv("DB_PASSWORD")
+	dbHost := os.Getenv("DB_HOST")
+	dbPort := os.Getenv("DB_PORT")
+	dbName := os.Getenv("DB_NAME")
+	dbOptions := os.Getenv("DB_OPTIONS")
 
-	var err error
+	// Construct DSN
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?%s",
+		dbUser, dbPassword, dbHost, dbPort, dbName, dbOptions)
+
 	repository.Db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		fmt.Println("Gagal koneksi ke database:", err)
@@ -27,9 +40,12 @@ func main() {
 	}
 
 	entity.MigrationTable()
+	// Jalankan Seeder
+	entity.SeedRoles(repository.Db)
+	entity.SeedCategories(repository.Db)
 
 	r := gin.Default()
-	r.POST("/user", middleware.AdminAuthMiddleware(repository.Db), service.CreateUserHandler)                                                    // hanya admin
+	r.POST("/user", middleware.AuthMiddleware(repository.Db), service.CreateUserHandler)                                                         // semua role
 	r.GET("/user/getclient", middleware.AdminAuthMiddleware(repository.Db), service.GetClientHandler)                                            // hanya admin
 	r.GET("/user/getengineer", middleware.AdminAuthMiddleware(repository.Db), service.GetEngineerHandler)                                        // hanya admin
 	r.DELETE("/user/delete/:id", middleware.AdminAuthMiddleware(repository.Db), service.DeleteUserHandler)                                       // hanya admin
