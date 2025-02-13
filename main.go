@@ -70,7 +70,7 @@ func main() {
 	r.GET("/ticket/image/:filename", service.DownloadImageTicket)     // tidak ada role
 	r.GET("/solution/image/:filename", service.DownloadImageSolution) // tidak ada role
 
-	err = r.Run(":8087")
+	err = r.Run(":8083")
 	if err != nil {
 		log.Fatalln(err)
 		return
