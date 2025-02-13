@@ -83,7 +83,7 @@ Request body
 	"deksripsi" :"kendala tidak bisa akses internet"
 }
 
--- pembuatan myticket client --
+--  myticket client --
 "/ticket/myticket?page=1&page_size=20&status=Closed&start_date=2025-01-01&end_date=2025-01-20" method GET // hanya role client
 AUTHORIZATION = barier token
 
